@@ -6,12 +6,9 @@ from pathlib import Path, PurePath
 def rename_files_by_date(working_directory: str, prefix: str, index: int = 1) -> None:
     paths = sorted(Path(working_directory).iterdir(), key=os.path.getctime)
     for i, path in enumerate(paths):
-        new_name = prefix + " " + str(i + index) + path.suffix
-        print(path.name)
-        print(path.parent)
-        nfp = PurePath(path.parent, new_name)
-        print("New filepath: " + nfp)
-        # path.rename()
+        new_filename = prefix + " " + str(i + index) + path.suffix
+        new_file_path = PurePath(path.parent, new_filename)
+        path.rename(new_file_path)
 
 if __name__ == '__main__':
     # Initialize parser
@@ -38,8 +35,9 @@ if __name__ == '__main__':
     if args.Index:
         index = int(args.Index)
     else:
-        print("Index is not specified")
+        print("Starting index is not specified, therefore defaulting to 1")
         index = 1
     
-    print("Executing command")
+    print("Executing command...")
     rename_files_by_date(working_directory, prefix, index)
+    print("Success.")
